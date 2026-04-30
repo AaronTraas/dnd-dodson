@@ -53,6 +53,10 @@
 - _ : Stealth            (Dex)
 - _ : Survival           (Wis)
 
+## Tools
+
+- Agricultural supplies - training on ship
+
 ## Languages:
 
 - Common
