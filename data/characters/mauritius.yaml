@@ -4,8 +4,9 @@ race: human
 classes:
     - type: fighter
       levels: 1
-      subclass: null
-      fighting-style: duelist
+      properties:
+        subclass: null
+        fighting-style: duelist
 background:
     background: Noble
     features: position of privilege

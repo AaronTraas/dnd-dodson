@@ -7,8 +7,19 @@
 <body>
   <h1>Name: <span id="char-name"></span></h1>
 
+  <h2>Class</h2>
+  <ul id="char-classes"></ul>
+
   <h2>Background</h2>
   <ul id="char-background"></ul>
+
+  <h2>Calculated</h2>
+  <ul id="char-calc">
+    <li>Level: <span id="char-level"></span></li>
+    <li>Proficiency Bonus: <span id="char-proficiency"></span></li>
+    <li>HP: <span id="char-hp"></span></li>
+    <li>AC: <span id="char-ac"></span></li>
+  </ul>
 
   <h2>Stats</h2>
   <ul id="char-stats">
@@ -49,6 +60,24 @@
         Object.entries(data["stats"]).forEach(([stat, value]) => {
           document.getElementById(`char-${stat}`).textContent = value;
         });
+
+        var level = 0;
+        const classList = document.getElementById('char-classes')
+        Object.entries(data["classes"]).forEach(([key, value]) => {
+          const li = document.createElement('li');
+          li.id = key
+          li.innerHTML = `${value["type"]} : Level ${value["levels"]}`;
+          level += value["levels"]
+          const prop_ul = document.createElement('ul');
+          Object.entries(value["properties"]).forEach(([key, value]) => {
+            const prop_li = document.createElement('li');
+            prop_li.innerHTML = `<strong>${key}:</strong> ${value}`;
+            prop_ul.appendChild(prop_li);
+          });
+          li.appendChild(prop_ul)
+          classList.appendChild(li);
+        });
+        document.getElementById('char-level').textContent = level;
 
         const backgroundList = document.getElementById('char-background')
         Object.entries(data["background"]).forEach(([key, value]) => {
