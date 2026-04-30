@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Character Sheet</title>
+
+</head>
+<body>
+  <h1>Name: <span id="char-name"></span></h1>
+
+  <ul id="char-stats">
+    <li>Strength: <span id="char-str"></span></li>
+    <li>Dexterity: <span id="char-dex"></span></li>
+    <li>Constitution: <span id="char-con"></span></li>
+    <li>Intelligence: <span id="char-int"></span></li>
+    <li>Wisdom: <span id="char-wis"></span></li>
+    <li>Charisma: <span id="char-cha"></span></li>
+  </ul>
+
+  <h2>Feats</h2>
+  <ul id="char-feats"></ul>
+
+  <h2>Equipment</h2>
+  <ul id="char-equipment"></ul>
+
+  <script>
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+      console.debug('Script loaded')
+
+      function updatePage(data) {
+        console.debug(data);
+        document.getElementById('char-name').textContent = data["name"]
+
+        Object.entries(data["stats"]).forEach(([stat, value]) => {
+          console.log(value, stat)
+          document.getElementById(`char-${stat}`).textContent = value;
+        });
+
+        const equipList = document.getElementById('char-equipment')
+        data["equipment"].forEach(value => {
+          const li = document.createElement('li');
+          li.textContent = value;
+          equipList.appendChild(li);
+        });
+
+        const featList = document.getElementById('char-feats')
+        data["feats"].forEach(value => {
+          const li = document.createElement('li');
+          li.textContent = value;
+          featList.appendChild(li);
+        });
+      }
+
+      const response = fetch('/characters/mauritius.yaml')
+        .then(response => response.json())
+        .then(data => updatePage(data))
+        .catch(error => console.error('Error:', error));
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+-
+    id: acrobatics
+    name: Acrobatics
+    stat: dex
+- Animal Handling    (Wis)
+- Arcana             (Int)
+- Athletics          (Str)
+- Bend Bars          (Str)
+- Deception/Cred     (Cha)
+- Gather Inf.        (Cha)
+- History            (Int)
+- Insight            (Wis)
+- Investigation      (Int)
+- Linguistics        (Int)
+- Medicine           (Wis)
+- Nature             (Int)
+- Perception         (Wis)
+- Passive Perception (Wis)
+- Performance        (Cha)
+- Persuasion/Neg     (Cha)
+- Religion           (Int)
+- Sleight of Hand    (Dex)
+- Stealth            (Dex)
+- Survival           (Wis)
