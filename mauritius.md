@@ -11,6 +11,9 @@
     - Ideals: Aspiration
     - Bond: Fortune
     - Flaws: Stubborn
+- Feats:
+    - Inspiring Leader
+    - Defensive Duelist
 
 ## Combat: 
 
@@ -20,7 +23,7 @@
 ## Stats:
 
 - Strength:     10 |  0 | X
-- Dexterity:    15 | +2 | 
+- Dexterity:    16 | +4 | 
 - Constitution: 10 |  0 | X
 - Intelligence: 10 |  0 | 
 - Wisdom:       13 | +1 | 
