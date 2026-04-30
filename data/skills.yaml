@@ -1,24 +1,64 @@
--
-    id: acrobatics
-    name: Acrobatics
-    stat: dex
-- Animal Handling    (Wis)
-- Arcana             (Int)
-- Athletics          (Str)
-- Bend Bars          (Str)
-- Deception/Cred     (Cha)
-- Gather Inf.        (Cha)
-- History            (Int)
-- Insight            (Wis)
-- Investigation      (Int)
-- Linguistics        (Int)
-- Medicine           (Wis)
-- Nature             (Int)
-- Perception         (Wis)
-- Passive Perception (Wis)
-- Performance        (Cha)
-- Persuasion/Neg     (Cha)
-- Religion           (Int)
-- Sleight of Hand    (Dex)
-- Stealth            (Dex)
-- Survival           (Wis)
+---
+acrobatics:
+  name: Acrobatics
+  stat: dex
+animal-handling:
+  name: Animal Handling
+  stat: Wis
+arcana:
+  name: Arcana
+  stat: Int
+athletics:
+  name: Athletics
+  stat: Str
+band-bars:
+  name: Bend Bars
+  stat: Str
+deception:
+  name: Deception/Cred
+  stat: Cha
+gather-info:
+  name: Gather Information
+  stat: Cha
+history:
+  name: History
+  stat: Int
+insight:
+  name: Insight
+  stat: Wis
+investigation:
+  name: Investigation
+  stat: Int
+linguistics:
+  name: Linguistics
+  stat: Int
+medicine:
+  name: Medicine
+  stat: Wis
+nature:
+  name: Nature
+  stat: Int
+percetion:
+  name: Perception
+  stat: Wis
+passive-perception:
+  name: Passive Perception
+  stat: Wis
+performance:
+  name: Performance
+  stat: Cha
+persuasion:
+  name: Persuasion/Neg
+  stat: Cha
+religion:
+  name: Religion
+  stat: Int
+slight-of-hand:
+  name: Sleight of Hand
+  stat: Dex
+stealth:
+  name: Stealth
+  stat: Dex
+survival:
+  name: Survival
+  stat: Wis

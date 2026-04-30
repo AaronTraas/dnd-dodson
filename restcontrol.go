@@ -26,11 +26,34 @@ type CharacterListEntry struct {
 	Title    string `json:"title"`
 }
 
-
 func StartRestController(port string) {
 	// Define a route and handler for serving static files at the root
 	fs := http.FileServer(http.Dir("./static"))
 	http.Handle("/", http.StripPrefix("/", fs))
+
+	http.HandleFunc("/skills", func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("%s %s\n", r.Method, r.URL.Path)
+		w.Header().Set("Content-Type", "application/json")
+
+		if r.Method != "GET" {
+			res := ErrorResponse {
+				Message: fmt.Sprintf("Bad request. Method not supported."),
+				Status: 400,
+			}
+			json.NewEncoder(w).Encode(res)
+			return
+		}
+
+		yamlData, _ := os.ReadFile("./data/skills.yaml")
+
+		jsonData, err := yaml.YAMLToJSON(yamlData)
+		if err != nil {
+			http.Error(w, "Could not convert to JSON", http.StatusInternalServerError)
+			return
+		}
+
+		w.Write(jsonData)
+	})
 
 	http.HandleFunc("/characters", func(w http.ResponseWriter, r *http.Request) {
 		log.Printf("%s %s\n", r.Method, r.URL.Path)

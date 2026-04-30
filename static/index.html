@@ -7,6 +7,10 @@
 <body>
   <h1>Name: <span id="char-name"></span></h1>
 
+  <h2>Background</h2>
+  <ul id="char-background"></ul>
+
+  <h2>Stats</h2>
   <ul id="char-stats">
     <li>Strength: <span id="char-str"></span></li>
     <li>Dexterity: <span id="char-dex"></span></li>
@@ -15,6 +19,15 @@
     <li>Wisdom: <span id="char-wis"></span></li>
     <li>Charisma: <span id="char-cha"></span></li>
   </ul>
+
+  <h2>Skills</h2>
+  <ul id="char-skills"></ul>
+
+  <h3>Tools</h3>
+  <ul id="char-tools"></ul>
+
+  <h3>Languages</h3>
+  <ul id="char-languages"></ul>
 
   <h2>Feats</h2>
   <ul id="char-feats"></ul>
@@ -27,13 +40,44 @@
     document.addEventListener('DOMContentLoaded', (event) => {
       console.debug('Script loaded')
 
-      function updatePage(data) {
+      function updatePage(data, skills) {
         console.debug(data);
+        console.log(skills);
+
         document.getElementById('char-name').textContent = data["name"]
 
         Object.entries(data["stats"]).forEach(([stat, value]) => {
-          console.log(value, stat)
           document.getElementById(`char-${stat}`).textContent = value;
+        });
+
+        const backgroundList = document.getElementById('char-background')
+        Object.entries(data["background"]).forEach(([key, value]) => {
+          const li = document.createElement('li');
+          li.innerHTML = `<strong>${key}:</strong> ${value}`;
+          backgroundList.appendChild(li);
+        });
+
+        const skillList = document.getElementById('char-skills')
+        Object.entries(skills).forEach(([key, value]) => {
+          const li = document.createElement('li');
+          li.id = key
+          li.innerHTML = `${value["name"]} (${value["stat"]})`;
+          skillList.appendChild(li);
+        });
+
+        const toolList = document.getElementById('char-tools')
+        data["skills"]["tools"].forEach(value => {
+          const li = document.createElement('li');
+          li.textContent = value;
+          toolList.appendChild(li);
+        });
+
+
+        const languageList = document.getElementById('char-languages')
+        data["skills"]["languages"].forEach(value => {
+          const li = document.createElement('li');
+          li.textContent = value;
+          languageList.appendChild(li);
         });
 
         const equipList = document.getElementById('char-equipment')
@@ -51,10 +95,16 @@
         });
       }
 
-      const response = fetch('/characters/mauritius.yaml')
+      const skills = fetch('/skills')
         .then(response => response.json())
-        .then(data => updatePage(data))
+        .then(skills => {
+          fetch('/characters/mauritius.yaml')
+            .then(response => response.json())
+            .then(data => updatePage(data, skills))
+            .catch(error => console.error('Error:', error));
+        })
         .catch(error => console.error('Error:', error));
+
     })
   </script>
 </body>
