@@ -16,46 +16,50 @@
     - Defensive Duelist
 
 ## Combat: 
-
-- AC: 15
-- HP: ??
-
+- **AC** 16 (11(armor)+3(dex)+2(shield))
+- **HP** 12
+- **Hit Dice** 1d12+0
+      - Spent: 0
+- **Rapier** melee finesse weapon attack +5 to hit. 1d8+5 piercing damage.
+  
 ## Stats:
 
-- Strength:     10 |  0 | X
-- Dexterity:    16 | +4 | 
-- Constitution: 10 |  0 | X
-- Intelligence: 10 |  0 | 
-- Wisdom:       13 | +1 | 
-- Charisma:     14 | +2 | 
+| Ability      | Score | Mod | Save |
+|--------------|-------|-----|------|
+| Strength:    |    10 |  0  | X    |
+| Dexterity:   |    16 | +3  |      |
+| Constitution:|    10 |  0  | X    |
+| Intelligence:|    10 |  0  |      |
+| Wisdom:      |    13 | +1  |      |
+| Charisma:    |    14 | +2  |      |
 
 ## Skills:
 
-- _ : Acrobatics         (Dex)
-- _ : Animal Handling    (Wis)
-- _ : Arcana             (Int)
-- _ : Athletics          (Str)
-- _ : Bend Bars          (Str)
-- x : Deception/Cred     (Cha)
-- _ : Gather Inf.        (Cha)
-- x : History            (Int)
-- _ : Insight            (Wis)
-- _ : Investigation      (Int)
-- _ : Linguistics        (Int)
-- _ : Medicine           (Wis)
-- _ : Nature             (Int)
-- x : Perception         (Wis)
-- _ : Passive Perception (Wis)
-- _ : Performance        (Cha)
-- x : Persuasion/Neg     (Cha)
-- _ : Religion           (Int)
-- _ : Sleight of Hand    (Dex)
-- _ : Stealth            (Dex)
-- _ : Survival           (Wis)
+- [ ] Acrobatics         (Dex)
+- [ ] Animal Handling    (Wis)
+- [ ] Arcana             (Int)
+- [ ] Athletics          (Str)
+- [ ] Bend Bars          (Str)
+- [x] Deception/Cred     (Cha)
+- [ ] Gather Inf.        (Cha)
+- [x] History            (Int)
+- [ ] Insight            (Wis)
+- [ ] Investigation      (Int)
+- [ ] Linguistics        (Int)
+- [ ] Medicine           (Wis)
+- [ ] Nature             (Int)
+- [x] Perception         (Wis)
+- [ ] Passive Perception (Wis)
+- [ ] Performance        (Cha)
+- [x] Persuasion/Neg     (Cha)
+- [ ] Religion           (Int)
+- [ ] Sleight of Hand    (Dex)
+- [ ] Stealth            (Dex)
+- [ ] Survival           (Wis)
 
 ## Tools
 
-- Agricultural supplies - training on ship
+- Agricultural supplies - training on ship 40/150 days 0/150 gold
 
 ## Languages:
 
