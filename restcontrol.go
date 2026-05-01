@@ -10,11 +10,6 @@ import (
 	"sigs.k8s.io/yaml"
 )
 
-type ErrorResponse struct {
-	Message  string   `json:"message"`
-	Status   int      `json:"status"`
-}
-
 type CharacterListResponse struct {
 	Message   string         `json:"message"`
 	Status    int            `json:"status"`
@@ -26,33 +21,54 @@ type CharacterListEntry struct {
 	Title    string `json:"title"`
 }
 
+type GameRules struct {
+	Stats   interface{} `json:"stats"`
+	Skills  interface{} `json:"skills"`
+	Classes interface{} `json:"classes"`
+}
+
 func StartRestController(port string) {
 	// Define a route and handler for serving static files at the root
 	fs := http.FileServer(http.Dir("./static"))
 	http.Handle("/", http.StripPrefix("/", fs))
 
-	http.HandleFunc("/skills", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/rules", func(w http.ResponseWriter, r *http.Request) {
 		log.Printf("%s %s\n", r.Method, r.URL.Path)
-		w.Header().Set("Content-Type", "application/json")
 
 		if r.Method != "GET" {
-			res := ErrorResponse {
-				Message: fmt.Sprintf("Bad request. Method not supported."),
-				Status: 400,
-			}
-			json.NewEncoder(w).Encode(res)
+			http.Error(w, "Bad request. Method not supported.", http.StatusBadRequest)
 			return
 		}
 
-		yamlData, _ := os.ReadFile("./data/skills.yaml")
-
-		jsonData, err := yaml.YAMLToJSON(yamlData)
-		if err != nil {
-			http.Error(w, "Could not convert to JSON", http.StatusInternalServerError)
+		skillsYamlData, _ := os.ReadFile("./data/rules/skills.yaml")
+		var rawSkills interface{}
+		if err := yaml.Unmarshal(skillsYamlData, &rawSkills); err != nil {
+			http.Error(w, "Could not unmarshal YAML", http.StatusInternalServerError)
 			return
 		}
 
-		w.Write(jsonData)
+		statsYamlData, _ := os.ReadFile("./data/rules/stats.yaml")
+		var rawStats interface{}
+		if err := yaml.Unmarshal(statsYamlData, &rawStats); err != nil {
+			http.Error(w, "Could not unmarshal YAML", http.StatusInternalServerError)
+			return
+		}
+
+		classesYamlData, _ := os.ReadFile("./data/rules/classes.yaml")
+		var rawClasses interface{}
+		if err := yaml.Unmarshal(classesYamlData, &rawClasses); err != nil {
+			http.Error(w, "Could not unmarshal YAML", http.StatusInternalServerError)
+			return
+		}
+
+		res := GameRules {
+			Stats: rawStats,
+			Skills: rawSkills,
+			Classes: rawClasses,
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(res)
 	})
 
 	http.HandleFunc("/characters", func(w http.ResponseWriter, r *http.Request) {
@@ -60,11 +76,7 @@ func StartRestController(port string) {
 		w.Header().Set("Content-Type", "application/json")
 
 		if r.Method != "GET" {
-			res := ErrorResponse {
-				Message: fmt.Sprintf("Bad request. Method not supported."),
-				Status: 400,
-			}
-			json.NewEncoder(w).Encode(res)
+			http.Error(w, "Bad request. Method not supported.", http.StatusBadRequest)
 			return
 		}
 
@@ -97,11 +109,7 @@ func StartRestController(port string) {
 		w.Header().Set("Content-Type", "application/json")
 
 		if r.Method != "GET" {
-			res := ErrorResponse {
-				Message: fmt.Sprintf("Bad request. Method not supported."),
-				Status: 400,
-			}
-			json.NewEncoder(w).Encode(res)
+			http.Error(w, "Bad request. Method not supported.", http.StatusBadRequest)
 			return
 		}
 

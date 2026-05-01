@@ -1,0 +1,13 @@
+---
+str:
+    label: Strength
+dex:
+    label: Dexterity
+con:
+    label: Constitution
+int:
+    label: Intelligence
+wis:
+    label: Wisdom
+cha:
+    label: Charisma

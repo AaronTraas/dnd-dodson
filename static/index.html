@@ -3,81 +3,126 @@
 <head>
   <title>Character Sheet</title>
 
+  <style>
+
+  </style>
 </head>
 <body>
-  <h1>Name: <span id="char-name"></span></h1>
+  <section>
+    <h1>Name: <span id="char-name"></span></h1>
 
-  <h2>Class</h2>
-  <ul id="char-classes"></ul>
+    <h2>Class</h2>
+    <ul id="char-classes"></ul>
+  </section>
 
-  <h2>Background</h2>
-  <ul id="char-background"></ul>
+  <section>
+    <h2>Background</h2>
+    <ul id="char-background"></ul>
+  </section>
 
-  <h2>Calculated</h2>
-  <ul id="char-calc">
-    <li>Level: <span id="char-level"></span></li>
-    <li>Proficiency Bonus: <span id="char-proficiency"></span></li>
-    <li>HP: <span id="char-hp"></span></li>
-    <li>AC: <span id="char-ac"></span></li>
-  </ul>
+  <section>
+    <h2>Calculated</h2>
+    <ul id="char-calc">
+      <li>Level: <span id="char-level"></span></li>
+      <li>Proficiency Bonus: <span id="char-proficiency"></span></li>
+      <li>Hit dice: <span id="char-hd"></span></li>
+      <li>HP: <span id="char-hp"></span></li>
+      <li>AC: <span id="char-ac"></span></li>
+    </ul>
+  </section>
 
-  <h2>Stats</h2>
-  <ul id="char-stats">
-    <li>Strength: <span id="char-str"></span></li>
-    <li>Dexterity: <span id="char-dex"></span></li>
-    <li>Constitution: <span id="char-con"></span></li>
-    <li>Intelligence: <span id="char-int"></span></li>
-    <li>Wisdom: <span id="char-wis"></span></li>
-    <li>Charisma: <span id="char-cha"></span></li>
-  </ul>
+  <section>
+    <h2>Stats</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Stat</th>
+          <th>Score</th>
+          <th>Mod</th>
+          <th>Save</th>
+        </tr>
+      </thead>
+      <tbody id="char-stats"></tbody>
+    </table>
+  </section>
 
-  <h2>Skills</h2>
-  <ul id="char-skills"></ul>
+  <section>
+    <h2>Skills</h2>
+    <ul id="char-skills"></ul>
 
-  <h3>Tools</h3>
-  <ul id="char-tools"></ul>
+    <h3>Tools</h3>
+    <ul id="char-tools"></ul>
 
-  <h3>Languages</h3>
-  <ul id="char-languages"></ul>
+    <h3>Languages</h3>
+    <ul id="char-languages"></ul>
+  </section>
 
-  <h2>Feats</h2>
-  <ul id="char-feats"></ul>
+  <section>
+    <h2>Feats</h2>
+    <ul id="char-feats"></ul>
+  </section>
 
-  <h2>Equipment</h2>
-  <ul id="char-equipment"></ul>
+  <section>
+    <h2>Equipment</h2>
+    <ul id="char-equipment"></ul>
+  </section>
 
   <script>
 
     document.addEventListener('DOMContentLoaded', (event) => {
-      console.debug('Script loaded')
-
-      function updatePage(data, skills) {
+      function updatePage(data, skills, classes, stats) {
         console.debug(data);
         console.log(skills);
 
         document.getElementById('char-name').textContent = data["name"]
 
-        Object.entries(data["stats"]).forEach(([stat, value]) => {
-          document.getElementById(`char-${stat}`).textContent = value;
-        });
-
         var level = 0;
+        var hitDice = ""
         const classList = document.getElementById('char-classes')
+        var savingThrows = null;
         Object.entries(data["classes"]).forEach(([key, value]) => {
+          const classLookup = classes[value["type"]];
           const li = document.createElement('li');
           li.id = key
-          li.innerHTML = `${value["type"]} : Level ${value["levels"]}`;
+          li.innerHTML = `${classLookup["label"]} : Level ${value["levels"]}`;
           level += value["levels"]
+          hitDice += String(value["levels"]) + classes[value["type"]]["hit-die"] + " ";
           const prop_ul = document.createElement('ul');
           Object.entries(value["properties"]).forEach(([key, value]) => {
             const prop_li = document.createElement('li');
             prop_li.innerHTML = `<strong>${key}:</strong> ${value}`;
             prop_ul.appendChild(prop_li);
           });
+          if (savingThrows == null) {
+            savingThrows = classLookup["saving-throws"];
+          }
           li.appendChild(prop_ul)
           classList.appendChild(li);
         });
         document.getElementById('char-level').textContent = level;
+        document.getElementById('char-hd').textContent = hitDice;
+        console.log(savingThrows);
+
+        const profBonus = (level <= 2) ? 2 : ((level - 1) / 4) + 2;
+        document.getElementById('char-proficiency').textContent = "+" + profBonus;
+
+        const statsTable = document.getElementById(`char-stats`);
+        Object.entries(data["stats"]).forEach(([key, value]) => {
+          const row = document.createElement('tr');
+          const statLabel = document.createElement('td');
+          statLabel.textContent = stats[key]["label"];
+          const statValue = document.createElement('td');
+          statValue.textContent = value;
+          const statBonus = document.createElement('td');
+          const bonus = Math.floor((value - 10) / 2);
+          statBonus.textContent = (bonus > 0 ? '+' : '') + String(bonus);
+          const save = bonus + (savingThrows.includes(key) ? profBonus : 0);
+          const statSave = document.createElement('td');
+          statSave.textContent = (save > 0 ? '+' : '') + String(save) + (savingThrows.includes(key) ? '*' : '');
+
+          row.append(statLabel, statValue, statBonus, statSave);
+          statsTable.appendChild(row);
+        });
 
         const backgroundList = document.getElementById('char-background')
         Object.entries(data["background"]).forEach(([key, value]) => {
@@ -124,12 +169,12 @@
         });
       }
 
-      const skills = fetch('/skills')
+      const skills = fetch('/rules')
         .then(response => response.json())
-        .then(skills => {
+        .then(rules => {
           fetch('/characters/mauritius.yaml')
             .then(response => response.json())
-            .then(data => updatePage(data, skills))
+            .then(data => updatePage(data, rules["skills"], rules["classes"], rules["stats"]))
             .catch(error => console.error('Error:', error));
         })
         .catch(error => console.error('Error:', error));

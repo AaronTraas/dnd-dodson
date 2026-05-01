@@ -1,0 +1,37 @@
+---
+barbarian:
+    label: Barbarian
+    hit-die: d12
+    saving-throws:
+        - str
+        - con
+fighter:
+    label: Fighter
+    hit-die: d12
+    saving-throws:
+        - str
+        - con
+rogue:
+    label: Rogue
+    hit-die: d8
+    saving-throws:
+        - dex
+        - int
+sorcerer:
+    label: Sorcerer
+    hit-die: d6
+    saving-throws:
+        - cha
+        - con
+warrior-monk:
+    label: Warrior Monk
+    hit-die: d10
+    saving-throws:
+        - wis
+        - cha
+wizard:
+    label: Wizard
+    hit-die: d6
+    saving-throws:
+        - int
+        - wis
